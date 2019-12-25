@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 25/12/2019 20:47:21
+ Date: 26/12/2019 00:12:10
 */
 
 SET NAMES utf8mb4;
@@ -48,6 +48,8 @@ CREATE TABLE `project`  (
 -- ----------------------------
 INSERT INTO `project` VALUES ('p00', 't00', '数据库', 1000, '2019-12-01', '2019-12-25', 0.5, 0.3, 0.2);
 INSERT INTO `project` VALUES ('p01', 't00', '计组', 500, '2019-12-01', '2019-12-25', 0.4, 0.2, 0.4);
+INSERT INTO `project` VALUES ('p02', 't00', '人工智能', 10000, '2019-12-01', '2019-12-31', 0.2, 0.3, 0.5);
+INSERT INTO `project` VALUES ('p03', 't01', '运筹学', 5000, '2019-12-01', '2019-12-31', -1, -1, -1);
 
 -- ----------------------------
 -- Table structure for s_participate_in_p
@@ -208,6 +210,24 @@ CREATE TABLE `tmp_project`  (
 -- ----------------------------
 INSERT INTO `tmp_project` VALUES ('p00', 't00', '数据库', 1000, '2019-12-01', '2019-12-25', 0.5, 0.3, 0.2);
 INSERT INTO `tmp_project` VALUES ('p01', 't00', '计组', 500, '2019-12-01', '2019-12-25', 0.4, 0.2, 0.4);
+
+-- ----------------------------
+-- Procedure structure for create_project
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `create_project`;
+delimiter ;;
+CREATE PROCEDURE `create_project`(IN `_pno` char(10),IN `_leader` char(20),IN `_name` char(50),IN `_funds` float,IN `_start_time` date,IN `_end_time` date,IN `_t_funds` float,IN `_s_funds` float,IN `_tem_funds` float)
+BEGIN
+	#Routine body goes here...
+	if isnull((select pno from project where project.pno=`_pno`)) then
+			INSERT INTO project VALUES(`_pno`,`_leader`,`_name`,`_funds`,`_start_time`,`_end_time`,`_t_funds`,`_s_funds`,`_tem_funds`) ;
+	else
+		select 'error';
+	end if;
+	
+END
+;;
+delimiter ;
 
 -- ----------------------------
 -- Procedure structure for get_other_project
